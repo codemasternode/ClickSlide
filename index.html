@@ -21,6 +21,7 @@
             height: 600px;
             border: 1px solid red;
             margin-top: 20px;
+            position: relative;
         }
     </style>
 </head>
@@ -37,10 +38,17 @@
         let buttons = document.querySelectorAll('button')
         let plansza, elements
         
-        function createElement(x,y,wielkosc) {
+        function createElement(x,y,wielkosc, plansza) {
             let zwroc = document.createElement('div')
-            zwroc.style.background = './auto.jpg'
+            zwroc.style.background = 'url("auto.jpg")'
             zwroc.style.backgroundPosition = `${x * 100/wielkosc}% ${y * 100/wielkosc}%`
+            zwroc.style.width = `${600 / wielkosc}px`
+            zwroc.style.height = `${600 / wielkosc}px`
+            zwroc.style.position = 'absoulte'
+            zwroc.style.left = `${600/wielkosc * x}%`
+            zwroc.style.top = `${600/wielkosc * y}%`
+            plansza.appendChild(zwroc)
+            return zwroc
         }
 
         class Plansza {
@@ -55,17 +63,20 @@
 
             createPlansza() {
                 let plansza = document.createElement('div')
-                console.log(plansza)
                 plansza.classList.add('plansza')
                 let elements = []
                 let element = document.createElement('div')
                 let index = 0
+                
+                this.plansza = plansza
 
                 for(let i = 0; i < this.wielkosc;i++) {
                     for(let k = 0; k < this.wielkosc; k++) {
                         elements.push({
                             id: index,
-                            img: createElement(i,k,this.wielkosc)
+                            img: createElement(i,k,this.wielkosc, this.plansza),
+                            posX: i,
+                            posY: k
                         })
                         index++
                     }
