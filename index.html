@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .wzor {
+            width: 200px;
+            height: 200px;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .plansza{
+            width: 600px;
+            height: 600px;
+            border: 1px solid red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <img src="./auto.jpg" alt="auto" class="wzor">
+    <div class="button-panel">
+        <button wielk="3">3 x 3</button>
+        <button wielk="4">4 x 4</button>
+        <button wielk="5">5 x 5</button>
+        <button wielk="6">6 x 6</button>
+    </div>
+    </div>
+    <script>
+        let buttons = document.querySelectorAll('button')
+        let plansza, elements
+        
+        function createElement(x,y,wielkosc) {
+            let zwroc = document.createElement('div')
+            zwroc.style.background = './auto.jpg'
+            zwroc.style.backgroundPosition = `${x * 100/wielkosc}% ${y * 100/wielkosc}%`
+        }
+
+        class Plansza {
+            constructor(wielkosc) {
+                this.wielkosc = wielkosc
+            }
+
+            setPlansza(wielkosc) {
+                this.wielkosc = wielkosc
+                this.changePlansza(this.wielkosc)
+            }
+
+            createPlansza() {
+                let plansza = document.createElement('div')
+                console.log(plansza)
+                plansza.classList.add('plansza')
+                let elements = []
+                let element = document.createElement('div')
+                let index = 0
+
+                for(let i = 0; i < this.wielkosc;i++) {
+                    for(let k = 0; k < this.wielkosc; k++) {
+                        elements.push({
+                            id: index,
+                            img: createElement(i,k,this.wielkosc)
+                        })
+                        index++
+                    }
+                }
+                
+                document.body.appendChild(plansza)
+                return elements
+            }
+
+            changePlansza(wielkosc) {
+                this.wielkosc = wielkosc
+            }
+
+        }
+
+        for(let i = 0; i < buttons.length;i++) {
+            buttons.item(i).addEventListener("click",(ev) => {
+                if(!plansza) {
+                    plansza = new Plansza(parseInt(buttons.item(i).getAttribute("wielk")))
+                    elements = plansza.createPlansza()
+                }else{
+                    plansza.changePlansza(parseInt(buttons.item(i).getAttribute("wielk")))
+                }
+                
+            })
+        }
+
+        
+    </script>
+</body>
+</html>
